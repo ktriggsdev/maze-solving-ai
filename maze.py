@@ -4,7 +4,11 @@ import pandas as pd
 from io import StringIO
 
 st.title("Upload a maze.txt file")
-uploaded_file = st.file_uploader("Choose a file")
+contents = st.file_uploader("Upload your file here...", type=['txt'])
+
+if contents is not None:
+    dataframe = pd.read_csv(contents)
+    st.write(dataframe)
 
 # Node class is declared
 class Node():
@@ -56,24 +60,14 @@ class QueueFrontier(StackFrontier):
 # Maze class is declared and initialized
 class Maze():
     def __init__(self):
-        
-        
-        if uploaded_file is not None:
-        # To convert to a string based IO:
-            stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-            st.write(stringio)
-
-        # To read file as string:
-            contents = stringio.read()
-            st.write(contents) 
 
         # Can be used wherever a "file-like" object is accepted:
         # dataframe = pd.read_csv(uploaded_file)
         # st.write(dataframe)
         
         # Reads file and sets the height and width of the maze
-        # with open(string_data) as f:
-        #     
+        with open(contents) as f:
+            contents = f.read()    
             
         # Validates start zone and end goal
         if contents.count("A") != 1:
@@ -190,7 +184,7 @@ class Maze():
                     child = Node(state=state, parent=node, action=action)
                     frontier.add(child)
                     
-    def output_image(self, filename, show_solution=True, show_explored=False):
+    def output_image(self, contents, show_solution=True, show_explored=False):
         from PIL import Image, ImageDraw
         cell_size =  50
         cell_border = 2
@@ -239,7 +233,7 @@ class Maze():
                       ((j + 1) * cell_size - cell_border, (i + 1) * cell_size - cell_border)]),
                     fill = fill
                 )
-            img.save(filename)
+            img.save(contents)
             
 if len(sys.argv) != 2:
     sys.exit("Usage: python maze.py maze.txt, use https://www.dcode.fr/maze-generator to generate the maze to solve and paste it in your maze.txt file")

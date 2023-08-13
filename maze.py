@@ -3,6 +3,9 @@ import streamlit as st
 import pandas as pd
 from io import StringIO
 
+st.title("Upload a maze.txt file")
+uploaded_file = st.file_uploader("Choose a file")
+
 # Node class is declared
 class Node():
     # init function is declared with the variables: self, state, parent and action, each of these variables is then initialized.
@@ -241,7 +244,7 @@ class Maze():
 if len(sys.argv) != 2:
     sys.exit("Usage: python maze.py maze.txt, use https://www.dcode.fr/maze-generator to generate the maze to solve and paste it in your maze.txt file")
 
-uploaded_file = st.file_uploader("Choose a file")
+
 # Maze is printed and is then solved and printed once more    
 m = Maze(sys.argv[1])
 st.write("Maze:")

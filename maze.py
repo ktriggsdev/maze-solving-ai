@@ -1,4 +1,7 @@
 import sys
+import streamlit as st
+import pandas as pd
+from io import StringIO
 
 # Node class is declared
 class Node():
@@ -49,11 +52,25 @@ class QueueFrontier(StackFrontier):
 
 # Maze class is declared and initialized
 class Maze():
-    def __init__(self, filename):
+    def __init__(self):
+        
+        
+        if uploaded_file is not None:
+        # To convert to a string based IO:
+            stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+            st.write(stringio)
+
+        # To read file as string:
+            contents = stringio.read()
+            st.write(contents) 
+
+        # Can be used wherever a "file-like" object is accepted:
+        # dataframe = pd.read_csv(uploaded_file)
+        # st.write(dataframe)
         
         # Reads file and sets the height and width of the maze
-        with open(filename) as f:
-            contents = f.read()
+        # with open(string_data) as f:
+        #     
             
         # Validates start zone and end goal
         if contents.count("A") != 1:
@@ -224,13 +241,14 @@ class Maze():
 if len(sys.argv) != 2:
     sys.exit("Usage: python maze.py maze.txt, use https://www.dcode.fr/maze-generator to generate the maze to solve and paste it in your maze.txt file")
 
+uploaded_file = st.file_uploader("Choose a file")
 # Maze is printed and is then solved and printed once more    
 m = Maze(sys.argv[1])
-print("Maze:")
-m.print()
-print("Solving...")
+st.write("Maze:")
+m.st.write()
+st.write("Solving...")
 m.solve()
-print("States Explored:", m.num_explored)
-print("Solution:")
-m.print()
+st.write("States Explored:", m.num_explored)
+st.write("Solution:")
+m.st.write()
 m.output_image("maze.png", show_explored=True)

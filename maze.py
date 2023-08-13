@@ -5,6 +5,8 @@ from io import StringIO
 
 st.title("Upload a maze.txt file")
 contents = st.file_uploader("Upload your file here...", type=['txt'])
+submit = st.button('Submit')
+ 
 
 if contents is not None:
     dataframe = pd.read_csv(contents)
@@ -240,12 +242,13 @@ if len(sys.argv) != 2:
 
 
 # Maze is printed and is then solved and printed once more    
-m = Maze(sys.argv[1])
-st.write("Maze:")
-m.st.write()
-st.write("Solving...")
-m.solve()
-st.write("States Explored:", m.num_explored)
-st.write("Solution:")
-m.st.write()
-m.output_image("maze.png", show_explored=True)
+if submit:
+   m = Maze(sys.argv[1])
+   st.write("Maze:")
+   m.st.write()
+   st.write("Solving...")
+   m.solve()
+   st.write("States Explored:", m.num_explored)
+   st.write("Solution:")
+   m.st.write()
+   m.output_image("maze.png", show_explored=True)
